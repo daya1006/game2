@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Angular Sample Game</title>
+<script src="angular.js"></script>
+<script src="underscore.js"></script>
+<script> 
+var app=angular.module('myApp',[]);
+
+app.controller('ctrl',function($scope)
+{ 	
+	$scope.choice=function(input){
+	var comp_sel=_.sample(['Scissor','Rock','Paper']);
+	var combined_string=input+comp_sel;
+	var result, image_name;
+	switch(combined_string){
+		case 'PaperPaper':
+		case 'RockRock':
+		case 'ScissorScissor':{result="this is a tie"; image_name="neutral"; break;}
+		case 'PaperRock':
+		case 'RockScissor':
+		case 'ScissorPaper':{result="you win"; image_name="yes"; break;}
+		case 'RockPaper':
+		case 'ScissorRock':
+		case 'PaperScissor':{result="Computer wins"; image_name="no"; break;}
+		default: break;
+		}
+	$scope.data={winner:result, your_choice:input, comp_selection:comp_sel, image:image_name, };
+	};
+})
+</script> 
+</head>
+
+<body ng-app="myApp" ng-controller="ctrl">
+Please Enter Your Name: <input type="text" ng-model="name" placeholder="name" style="border-radius:5px; border:1px solid gray;"/>
+<br /><br />
+Please make your choice: 
+<input type="button" value="Scissor" ng-click="choice('Scissor')"/>
+<input type="button" value="Paper" ng-click="choice('Paper')"/>
+<input type="button" value="Rock" ng-click="choice('Rock')"/>
+<br/><br/>
+<h1>
+Your name is: {{name}}<br>
+Your selection is: {{data.your_choice}} <br>
+Computer's selection is: {{data.comp_selection}} <br>
+Winner: <span style="text-decoration:blink;">{{data.winner}}</span><br><img border="0" src="images/{{data.image}}.png" alt="image" />
+</h1>
+</body>
+
+</html>
